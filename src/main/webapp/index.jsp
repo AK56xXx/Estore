@@ -38,6 +38,33 @@
   </head>
   <body>
    <%@ include file="header.jsp" %>
+   <form action="home" method="get">
+   
+   <%
+   
+   
+   // Get all cookies sent in the request
+   Cookie[] cookies = request.getCookies();
+
+   // Iterate over the cookies and look for the one you want
+   if (cookies != null) {
+       for (Cookie cookie : cookies) {
+           if (cookie.getName().equals("JSESSIONID")) {
+               // Get the value of the "myAttribute" attribute of the cookie
+               String session_id =cookie.getValue();
+               // Do something with the attribute value
+               System.out.println("Session ID is: " + session_id);
+               break;
+           }
+       }
+   }
+  // String msg = (String) request.getAttribute("JSESSIONID");
+  // System.out.println(msg);
+   
+   %>
+   
+   
+   </form>
     
     <div class="slider-area">
         	<!-- Slider -->

@@ -31,7 +31,7 @@
 </head>
 <body>
 	<form action="login" method="post">
-	<%
+					<%
 					String fullName = (String) session.getAttribute("user");
 					if (fullName!=null){
 					%>
@@ -41,13 +41,7 @@
 					%>
 				
 				
-				<%
-				String msg = (String) request.getAttribute("ERROR");
-				if (msg!=null){
-					out.print("<p style='color:red;'>"+msg+"</p>");
-				}
 				
-				%> 
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
@@ -55,6 +49,15 @@
 					<span class="login100-form-title p-b-49">
 						Login
 					</span>
+					
+						<%
+						
+						String msg = (String) request.getAttribute("ERROR");
+						if (msg!=null){
+							out.print("<p style='color:red;'>"+msg+"</p>");
+						}
+						
+						%> 
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Email is reauired">
 						<span class="label-input100">Email</span>

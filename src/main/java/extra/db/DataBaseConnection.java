@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import extra.values.Strings;
+
 import java.sql.SQLException;
 
 /*
@@ -16,14 +19,15 @@ import java.sql.SQLException;
 
 public class DataBaseConnection {
 	
-	public static String url;
+	/*
 	public static String dataBaseHot = "localhost";
 	public static String dataBasePort = "3306";
 	public static String dataBaseName = "estore";
 	public static String timeZone = "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	public static String dataBaseUser = "admin";
 	public static String dataBasePassword = "";
-	
+	*/
+	public static String url;
 	public static Connection con;
 	public static PreparedStatement ps;
 	public static Statement st;
@@ -37,10 +41,10 @@ public class DataBaseConnection {
      */
 	public static Connection getConnected()   {
 		try{
-			url = "jdbc:mysql://"+dataBaseHot+":"+dataBasePort+"/"+dataBaseName+timeZone;
+			url = "jdbc:mysql://"+Strings.DB_HOST+":"+Strings.DB_PORT+"/"+Strings.DB_NAME+Strings.DB_TIMEZONE;
 			
 			Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(url, dataBaseUser, dataBasePassword);
+            con = DriverManager.getConnection(url, Strings.DB_USER, Strings.DB_PASSWORD);
 		}
 		catch(Exception e){
 			System.out.println("Connection failed : "+e);
@@ -69,6 +73,8 @@ public class DataBaseConnection {
      * @param password
      * @return un entier O, 1 ou -1
      */
+	
+	/*
 	public static int verifyLogin(String email, String password) {
 		 try {
 			  ps=con.prepareStatement("SELECT * from users where email=? and password=?");
@@ -85,8 +91,10 @@ public class DataBaseConnection {
 			
 		return -1;
 	}
+	*/
 	
 	
+	/*
 	public static String getUserByEmail(String email) {
 		 try {
 			  ps=con.prepareStatement("SELECT * from users where email=?");
@@ -102,8 +110,9 @@ public class DataBaseConnection {
 			
 		return null;
 	}
+	*/
 	
-	
+	/*
 	public static String getUserNameByEmail(String email) {
 		 try {
 			  ps=con.prepareStatement("SELECT * from users where email=?");
@@ -119,7 +128,10 @@ public class DataBaseConnection {
 			
 		return null;
 	}
+	*/
 	
+	
+	/*
 	public static int exist(String email) {
 		 try {
 			  ps=con.prepareStatement("SELECT * from users where email=?");
@@ -135,7 +147,7 @@ public class DataBaseConnection {
 			
 		return -1;
 	}
-	
+	*/
 	
 	/**
      * Ajouter un nouveau utilisateur dans la base de donn�es
@@ -143,6 +155,8 @@ public class DataBaseConnection {
      * @param fullName
      * @param password
      */
+	
+	/*
 	public static int createUser(String fullName, String email, String password) {
 		try {
 			ps=con.prepareStatement("INSERT INTO users (fullName,email,password) Values (?, ?, ?)");
@@ -158,5 +172,5 @@ public class DataBaseConnection {
 			System.out.println("Connection error : createUser " +e );
 		}
 		return -1;		
-	}
+	}*/
 }

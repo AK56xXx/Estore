@@ -39,15 +39,31 @@
 						Sign Up
 					</span>
 					
+					
+					    <%
+					    
+						String msg = (String) request.getAttribute("ERROR");
+						if (msg!=null){
+							out.print("<p style='color:red;'>"+msg+"</p>");
+						}
+						
+						%> 
+					
 						<div class="wrap-input100 validate-input m-b-23" data-validate = "Name is reauired">
-						<span class="label-input100">Full Name</span>
-						<input class="input100" type="text" name="fullname" placeholder="Type your name" required>
+						<span class="label-input100">First Name</span>
+						<input class="input100" type="text" name="fname" placeholder="Type your first name" required>
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+					
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Name is reauired">
+						<span class="label-input100">Last Name</span>
+						<input class="input100" type="text" name="lname" placeholder="Type your last name" required>
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "Email is reauired">
 						<span class="label-input100">Email</span>
-						<input class="input100" type="text" name="email" placeholder="Type your email" required>
+						<input class="input100" type="email" name="email" placeholder="Type your email" required>
 						<span class="focus-input100" data-symbol="&#xf206;"></span>
 					</div>
 
@@ -64,7 +80,7 @@
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
+							<button type="submit" class="login100-form-btn">
 								Sign Up
 							</button>
 						</div>

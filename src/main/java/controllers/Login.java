@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDAOImpl;
+import extra.values.Strings;
 import models.User;
 
 /**
@@ -68,10 +69,11 @@ public class Login extends HttpServlet {
 			
 		}else if(x==0) {
 			
-			request.setAttribute("ERROR", "Utilisateur introuvable");
-			rd = request.getRequestDispatcher("connexion.jsp");		
+			request.setAttribute("ERROR", Strings.ERROR_LOGIN);
+			rd = request.getRequestDispatcher("connexion.jsp");
+			
 		}else {
-			request.setAttribute("ERROR", "Erreur de connexion");
+			request.setAttribute("ERROR", Strings.ERROR_DB_PROBLEM);
 			rd = request.getRequestDispatcher("connexion.jsp");	
 		}
 		

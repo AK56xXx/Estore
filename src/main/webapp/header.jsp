@@ -30,7 +30,7 @@
 						<% 
 						if(user != null){
 						%>
-					  <li><a href="logout"><i class="fa fa-user"></i> <% out.print(user.getFullName()); %> :  Logout</a></li>
+					  <li><a href="logout"><i class="fa fa-user"></i> <% out.print(user.getFname()+" "+user.getLname()); %> :  Logout</a></li>
 						</ul>
 
 						 <%

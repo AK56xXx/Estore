@@ -36,6 +36,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
+  
+  
   <body>
    <%@ include file="header.jsp" %>
    
@@ -484,6 +486,7 @@
             </div>
         </div>
     </div>
+    
 <%@ include file="footer.jsp" %>
 
  
