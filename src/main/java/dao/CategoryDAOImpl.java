@@ -82,13 +82,18 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	public ArrayList<Category> getAllCategories() {
 		try {
+			
 			ArrayList<Category> list = new ArrayList<Category>();
 			ps = con.prepareStatement("SELECT * from category");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-			Category category = getCategoryById(rs.getInt(1));
+				Category category = new Category();
+				category.setIdCategory(rs.getInt(1));
+				category.setNameCategory(rs.getString(2));
+			
 				list.add(category);
 			}
+			
 			return list;
 
 		} catch (Exception e) {

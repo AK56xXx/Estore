@@ -11,6 +11,7 @@ public interface ProductDAO {
 	public int updateProduct(Product product);
 	public Product getProductById(int id);
 	public ArrayList<Product> getAllProducts();
+	public ArrayList<Product> getAllProductsByCategory(int id);
 	public int deleteProduct(int id);
 
 }

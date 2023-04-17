@@ -95,8 +95,9 @@ public class Inscription extends HttpServlet {
 					
 			int creation = userDAOImpl.addUser(user);
 			if (creation==1) {
+				User user1 = userDAOImpl.getUserByEmail(email);
 				HttpSession session = request.getSession();
-				session.setAttribute("user", user);
+				session.setAttribute("user", user1);
 				rd = request.getRequestDispatcher("index.jsp");
 			}else {
 				request.setAttribute("ERROR", Strings.ERROR_DB_PROBLEM);

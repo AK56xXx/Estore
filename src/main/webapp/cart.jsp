@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="models.User" %>
+<%@ page import="models.CartItem" %>
+<%@ page import="dao.CartItemDAOImpl" %>
+<%@ page import="models.Cart" %>
+<%@ page import="dao.CartDAOImpl" %>
+<%@ page import="models.Product" %>
+<%@ page import="dao.ProductDAOImpl" %>
 <!DOCTYPE html>
 <!--
 	ustora by freshdesignweb.com
@@ -28,6 +35,7 @@
     <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/menu.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,8 +49,34 @@
   <body>
    <%@ include file="header.jsp" %>
    
+<script>
+                                         
+		var input = document.getElementById("quantity");
+													
+		input.addEventListener("input", function() {
+			var newValue = parseInt(input.value) +1;
+		    input.value = newValue;
+		});
+
+		function increment() {
+		  // Get the input element
+		  var input = document.getElementById("quantity");
+		
+		  // Increment the value by one
+		  input.stepUp();
+		}
+		
+		function decrement() {
+		  // Get the input element
+		  var input = document.getElementById("quantity");
+		
+		  // Decrement the value by one
+		  input.stepDown();
+		}
+		
+</script>
     
-    
+   
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -116,28 +150,67 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                     <%
+    try {
+         User user1 = (User) session.getAttribute("user");
+    
+	    CartDAOImpl cartCRUD = new CartDAOImpl();
+		Cart c = new Cart();
+		
+		ProductDAOImpl productCRUD = new ProductDAOImpl();
+		Product p = new Product();
+		
+    	
+		
+		
+		if(user1 == null){
+			
+
+    	
+    	String sessionId = session.getId();
+    	c = cartCRUD.getCartBySession(sessionId);
+    	
+    	
+    	
+    	CartItemDAOImpl itemCRUD = new CartItemDAOImpl();
+        ArrayList<CartItem> listItems = new ArrayList<CartItem>();
+        listItems = itemCRUD.getAllCartItemsByCartId(c.getIdCart());
+    	
+		
+    	
+    	
+    
+    
+    
+    
+    
+    %>
+                                    <% for(CartItem ci : listItems){ %>
+                                    <% p = productCRUD.getProductById(ci.getProductId()); %>
                                         <tr class="cart_item">
                                             <td class="product-remove">
-                                                <a title="Remove this item" class="remove" href="#">×</a> 
+                                                <a title="Remove this item" class="remove" href="deleteItem?idp=<%= ci.getIdCartItem() %>">×</a> 
                                             </td>
 
                                             <td class="product-thumbnail">
-                                                <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a>
+                                                <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="<%=p.getImage() %>"></a>
                                             </td>
 
                                             <td class="product-name">
-                                                <a href="single-product.html">Ship Your Idea</a> 
+                                                <a href="single-product.html"><%=p.getProductName() %></a> 
                                             </td>
 
                                             <td class="product-price">
-                                                <span class="amount">£15.00</span> 
+                                                <span class="amount"><%=p.getPrice()%></span> 
                                             </td>
+                                            
+
 
                                             <td class="product-quantity">
                                                 <div class="quantity buttons_added">
-                                                    <input type="button" class="minus" value="-">
-                                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
-                                                    <input type="button" class="plus" value="+">
+                                                    <input type="button" class="minus" value="-" onclick="decrement()">
+                                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="1" step="1" id="quantity">
+                                                    <input type="button" class="plus" value="+" onclick="increment()">
                                                 </div>
                                             </td>
 
@@ -145,6 +218,72 @@
                                                 <span class="amount">£15.00</span> 
                                             </td>
                                         </tr>
+                                        
+                                        <% } %>
+                                        
+                                        <% } else { %>
+                                        
+                                       <% 
+                                       
+								        String sessionId = session.getId();
+								    	c = cartCRUD.getCartBySession(user1.getEmail());
+								    	
+								    	
+								    	
+								    	CartItemDAOImpl itemCRUD = new CartItemDAOImpl();
+								        ArrayList<CartItem> listItems = new ArrayList<CartItem>();
+								        listItems = itemCRUD.getAllCartItemsByCartId(c.getIdCart());
+                                        
+                                        
+                                        %>
+                                        
+                                        
+                                    <% for(CartItem ci : listItems){ %>
+                                    <% p = productCRUD.getProductById(ci.getProductId()); %>
+                                        <tr class="cart_item">
+                                            <td class="product-remove">
+                                                <a title="Remove this item" class="remove" href="deleteItem?idp=<%= ci.getIdCartItem() %>">×</a> 
+                                            </td>
+
+                                            <td class="product-thumbnail">
+                                                <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="<%=p.getImage() %>"></a>
+                                            </td>
+
+                                            <td class="product-name">
+                                                <a href="single-product.html"><%=p.getProductName() %></a> 
+                                            </td>
+
+                                            <td class="product-price">
+                                                <span class="amount"><%=p.getPrice()%></span> 
+                                            </td>
+                                            
+
+
+                                            <td class="product-quantity">
+                                                <div class="quantity buttons_added">
+                                                    <input type="button" class="minus" value="-" onclick="decrement()">
+                                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="1" step="1" id="quantity">
+                                                    <input type="button" class="plus" value="+" onclick="increment()">
+                                                </div>
+                                            </td>
+
+                                            <td class="product-subtotal">
+                                                <span class="amount">£15.00</span> 
+                                            </td>
+                                        </tr>
+                                        
+                                        
+                                        <% } %>
+                                        
+                                        
+                                          
+                                        
+                                        <%} %>
+                                        <% }catch (Exception e){
+                                        	System.out.println(e.getMessage());
+		                                   }
+		                               %>
+                                   
                                         <tr>
                                             <td class="actions" colspan="6">
                                                 <div class="coupon">

@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -11,8 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.CartDAOImpl;
+import dao.CartItemDAOImpl;
 import dao.UserDAOImpl;
 import extra.values.Strings;
+import models.Cart;
+import models.CartItem;
 import models.User;
 
 /**
@@ -22,6 +27,8 @@ import models.User;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAOImpl userDAOImpl;
+	private CartDAOImpl cartDAOImpl;
+	private CartItemDAOImpl cartItemDAOImpl;
 
     /**
      * Default constructor. 
@@ -34,6 +41,8 @@ public class Login extends HttpServlet {
     
     public void init(ServletConfig config) throws ServletException {
     	userDAOImpl = new UserDAOImpl();
+    	cartDAOImpl = new CartDAOImpl();
+    	cartItemDAOImpl = new CartItemDAOImpl();
     }
     
 
@@ -53,6 +62,8 @@ public class Login extends HttpServlet {
 		String email = (String) request.getParameter("email");
 		String password = (String) request.getParameter("password");
 		
+		
+		
 
 		RequestDispatcher rd ;
 		
@@ -62,7 +73,39 @@ public class Login extends HttpServlet {
 			User user = userDAOImpl.getUserByEmail(email);
 		
 			HttpSession session = request.getSession();
+			
 			session.setAttribute("user", user);
+			
+			
+			/**********************/
+			String sessionId = session.getId();
+			User u = (User) session.getAttribute("user");
+			String emailSession = u.getEmail();
+			
+			Cart cartUser = cartDAOImpl.getCartBySession(emailSession);
+			ArrayList<CartItem> cis = new ArrayList<CartItem>();
+			Cart cartSession = cartDAOImpl.getCartBySession(sessionId);
+			cis = cartItemDAOImpl.getAllCartItemsByCartId(cartSession.getIdCart());
+			for (CartItem ci : cis) {
+				
+				CartItem cartItem = new CartItem();
+				
+				cartItem.setCartId(cartUser.getIdCart());
+				cartItem.setProductId(ci.getProductId());
+				cartItem.setPrice(ci.getPrice());
+				cartItem.setQty(ci.getQty());
+				
+				cartItemDAOImpl.addCartItem(cartItem);
+				
+				
+				
+				
+			}
+			
+		/**********************/	
+			
+			
+			
 			
 			rd = request.getRequestDispatcher("index.jsp");	
 			

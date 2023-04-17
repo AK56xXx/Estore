@@ -88,8 +88,8 @@ public class UserDAOImpl implements UserDAO {
 				user.setState(rs.getString(10));
 				user.setPostecode(rs.getString(11));
 				user.setPhone(rs.getString(12));
-				user.setIdCart(rs.getInt(13));
-				user.setRole(rs.getString(14));
+				user.setRole(rs.getString(13));
+				user.setIdCart(rs.getInt(14));	
 				user.setRegisterDate(rs.getString(15));	
 			}
 			return user;
@@ -205,11 +205,28 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public ArrayList<User>getAllUsers(){
 		try {
+			
 			ArrayList<User> list = new ArrayList<User>();
 			ps = con.prepareStatement("SELECT * from users");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				User user = getUserById(rs.getInt(1));
+				User user = new User();
+				user.setIdUser(rs.getInt(1));
+				user.setFname(rs.getString(2));
+				user.setLname(rs.getString(3));		
+				user.setEmail(rs.getString(4));
+				user.setPassword(rs.getString(5));
+				user.setPhoto(rs.getString(6));
+				user.setCountry(rs.getString(7));
+				user.setAddress(rs.getString(8));
+				user.setCity(rs.getString(9));
+				user.setState(rs.getString(10));
+				user.setPostecode(rs.getString(11));
+				user.setPhone(rs.getString(12));
+				user.setRole(rs.getString(13));
+				user.setIdCart(rs.getInt(14));
+				user.setRegisterDate(rs.getString(15));
+			
 				list.add(user);
 			}
 			return list;

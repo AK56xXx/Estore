@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="models.User" %>
+<%@ page import="models.Category" %>
+<%@ page import="dao.CategoryDAOImpl" %>
+<%@page import="java.util.ArrayList"%>
 
 
   
@@ -89,28 +92,29 @@
         </div>
     </div> <!-- End site branding area -->
     
-    <div class="mainmenu-area">
-        <div class="container">
-            <div class="row">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div> 
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="index.jsp">Home</a></li>
-                        <li><a href="shop.jsp">Shop page</a></li>
-                        <li><a href="cart.jsp">Cart</a></li>
-                        <li><a href="checkout.jsp">Checkout</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>  
-            </div>
+<div class="mainmenu-area">
+   <div class="container">
+	   <div class="navbar">
+	    <a href="index.jsp">Home</a>
+	     <%
+				              CategoryDAOImpl ctg = new CategoryDAOImpl();
+				              ArrayList<Category> list = new ArrayList<Category>();
+				              list = ctg.getAllCategories();
+				              for(Category c : list){
+				             %>
+				 
+				  
+			
+				
+				   
+				 
+					      <a href="shop.jsp?idc=<%=c.getIdCategory()%>"><%=c.getNameCategory()%></a>
+					    
+		 <% } %>
         </div>
-    </div> <!-- End mainmenu area -->
+       
+      </div>
+  </div> <!-- End mainmenu area -->
     
+ 
   

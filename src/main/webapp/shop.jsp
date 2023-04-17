@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="models.Product" %>
+<%@ page import="models.User" %>
 <%@ page import="dao.ProductDAOImpl" %>
 <%@ page import="java.util.ArrayList" %>
     
@@ -32,6 +33,7 @@
     <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/menu.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,43 +44,67 @@
   </head>
   <body>
    <%@ include file="header.jsp" %>
+    <%
+    int idu;
+    try {
+    	if(!session.getAttribute("user").equals(null))
+    	{
+    	User u = (User) session.getAttribute("user");
+        idu = u.getIdUser();
+    	}
+    	else {
+    		idu=0;
+    	}
+    } catch (Exception e) {
+        idu = 0;
+    }
+
+     String sessionId = session.getId();
+  
+    int idc =Integer.parseInt(request.getParameter("idc"));
     
+    CategoryDAOImpl ct = new CategoryDAOImpl();
+    Category category = new Category();
+    category = ct.getCategoryById(idc);
+    
+    
+    %>
     <div class="product-big-title-area">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="product-bit-title text-center">
-                        <h2>Shop</h2>
+                        <h2><%= category.getNameCategory() %></h2>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     
-    
+   <form action="AddCartItem" method="get">
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
             <% 
-				
+            	
 				ProductDAOImpl productDAOImpl= new ProductDAOImpl();
-				ArrayList<Product> products = productDAOImpl.getAllProducts();
+				ArrayList<Product> products = productDAOImpl.getAllProductsByCategory(idc);
 			
 				for (int i=0; i<products.size();i++){
 			%>
                 <div class="col-md-3 col-sm-6">
                     <div class="single-shop-product">
                         <div class="product-upper">
-                            <img src="img/product-2.jpg" alt="">
+                            <img src="<%= products.get(i).getImage() %>" alt="">
                         </div>
-                        <h2><a href=""><%=products.get(i).getProductName() %> </a></h2>
+                        <h2><a href="product.jsp?idp=<%=products.get(i).getIdProduct() %>&idc=<%=idc%>"><%=products.get(i).getProductName() %> </a></h2>
                         <div class="product-carousel-price">
                             <ins><%=products.get(i).getPrice() %></ins> <del><%=products.get(i).getOldPrice() %></del>
                         </div>  
-                        
+          
                         <div class="product-option-shop">
-                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="<%= products.get(i).getImage() %>">Add to cart</a>
+                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="addItem?idp=<%= products.get(i).getIdProduct() %>&ses=<%=sessionId%>&idu=<%=idu%>&p=<%=products.get(i).getPrice()%>">Add to cart</a>
                         </div>                       
                     </div>
                 </div>
@@ -89,6 +115,7 @@
                 
                
             </div>
+      
             
             <div class="row">
                 <div class="col-md-12">
@@ -117,6 +144,9 @@
             </div>
         </div>
     </div>
+    
+    
+   </form> 
 <%@ include file="footer.jsp" %>
 
    

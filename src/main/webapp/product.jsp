@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="models.Product" %>
+<%@ page import="dao.ProductDAOImpl" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <!--
 	ustora by freshdesignweb.com
@@ -28,6 +31,7 @@
     <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/menu.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,14 +42,48 @@
   </head>
   <body>
    <%@ include file="header.jsp" %>
-   
+          <% 
+          
+          
+          int idu;
+          try {
+          	if(!session.getAttribute("user").equals(null))
+          	{
+          	User u = (User) session.getAttribute("user");
+              idu = u.getIdUser();
+          	}
+          	else {
+          		idu=0;
+          	}
+          } catch (Exception e) {
+              idu = 0;
+          }
+
+           String sessionId = session.getId();
+          
+          
+                int idc = Integer.parseInt(request.getParameter("idc"));
+                CategoryDAOImpl ct = new CategoryDAOImpl();
+                Category category = new Category();
+                category = ct.getCategoryById(idc);
+                
+                int idp = Integer.parseInt(request.getParameter("idp"));
+                ProductDAOImpl p = new ProductDAOImpl();
+                
+                Product product = new Product();
+                product = p.getProductById(idp);
+                
+              //  ArrayList<Product> lp = new ArrayList<Product>();
+                
+                
+           %>
     
     <div class="product-big-title-area">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="product-bit-title text-center">
-                        <h2>Shop</h2>
+                        <h2><%= category.getNameCategory() %></h2>
                     </div>
                 </div>
             </div>
@@ -109,20 +147,27 @@
                         </ul>
                     </div>
                 </div>
-                
+         
                 <div class="col-md-8">
                     <div class="product-content-right">
                         <div class="product-breadcroumb">
-                            <a href="">Home</a>
-                            <a href="">Category Name</a>
-                            <a href="">Sony Smart TV - 2015</a>
+                            <a href="index.jsp">Home</a>
+                            <a href="shop.jsp?idc=<%= idc %>"><%= category.getNameCategory() %></a>
+                            <a href="#"><%= product.getProductName() %></a>
                         </div>
+                        
+                        <%
+                        
+                        
+                        
+                        
+                        %>
                         
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="product-images">
                                     <div class="product-main-img">
-                                        <img src="img/product-2.jpg" alt="">
+                                        <img src="<%= product.getImage()%>" alt="">
                                     </div>
                                     
                                     <div class="product-gallery">
@@ -135,16 +180,28 @@
                             
                             <div class="col-sm-6">
                                 <div class="product-inner">
-                                    <h2 class="product-name">Sony Smart TV - 2015</h2>
+                                    <h2 class="product-name"><%= product.getProductName() %></h2>
                                     <div class="product-inner-price">
-                                        <ins>$700.00</ins> <del>$100.00</del>
+                                        <ins>$<%= product.getPrice() %></ins> <del>$<%= product.getOldPrice() %></del>
                                     </div>    
                                     
-                                    <form action="" class="cart">
+                                    <form action="addItem" class="cart">
                                         <div class="quantity">
-                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
+                                        
+                                        <script>
+											var input = document.getElementById("quantity");
+											
+											input.addEventListener("input", function() {
+											  var newValue = parseInt(input.value) +1;
+											  input.value = newValue;
+											});
+										</script>
+										
+                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1" id="quantity">
+                                            
                                         </div>
-                                        <button class="add_to_cart_button" type="submit">Add to cart</button>
+                                        <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="addItem?idp=<%= product.getIdProduct() %>&ses=<%=sessionId%>&idu=<%=idu%>&p=<%=product.getPrice()%>">Add to cart</a>
+
                                     </form>   
                                     
                                     <div class="product-inner-category">
@@ -159,9 +216,7 @@
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane fade in active" id="home">
                                                 <h2>Product Description</h2>  
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla. Quisque volutpat nulla risus, id maximus ex aliquet ut. Suspendisse potenti. Nulla varius lectus id turpis dignissim porta. Quisque magna arcu, blandit quis felis vehicula, feugiat gravida diam. Nullam nec turpis ligula. Aliquam quis blandit elit, ac sodales nisl. Aliquam eget dolor eget elit malesuada aliquet. In varius lorem lorem, semper bibendum lectus lobortis ac.</p>
-
-                                                <p>Mauris placerat vitae lorem gravida viverra. Mauris in fringilla ex. Nulla facilisi. Etiam scelerisque tincidunt quam facilisis lobortis. In malesuada pulvinar neque a consectetur. Nunc aliquam gravida purus, non malesuada sem accumsan in. Morbi vel sodales libero.</p>
+                                                <p><%= product.getDescription() %> </p>
                                             </div>
                                             <div role="tabpanel" class="tab-pane fade" id="profile">
                                                 <h2>Reviews</h2>
