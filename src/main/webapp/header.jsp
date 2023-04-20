@@ -5,6 +5,14 @@
 <%@ page import="dao.CategoryDAOImpl" %>
 <%@page import="java.util.ArrayList"%>
 
+<%@ page import="models.CartItem" %>
+<%@ page import="dao.CartItemDAOImpl" %>
+<%@ page import="models.Cart" %>
+<%@ page import="dao.CartDAOImpl" %>
+<%@ page import="models.Product" %>
+<%@ page import="dao.ProductDAOImpl" %>
+<%@ page import="models.Order" %>
+<%@ page import="dao.OrderDAOImpl" %>
 
   
     
@@ -82,11 +90,69 @@
                         <h1><a href="./"><img src="img/logo.png"></a></h1>
                     </div>
                 </div>
-                
+               
                 <div class="col-sm-6">
+                 <%
+                
+                
+                if (user == null) {
+                	String sessionId = session.getId();
+                	CartDAOImpl cartDAOImpl = new CartDAOImpl();
+                    Cart ct = cartDAOImpl.getCartBySession(sessionId);
+                    CartItemDAOImpl cartItemDAOImpl = new CartItemDAOImpl();
+                    ProductDAOImpl productDAOImpl = new ProductDAOImpl();
+                    Product p = new Product();
+                    double total=0;
+                    
+                    ArrayList<CartItem> listItems = new ArrayList<CartItem>();
+                    listItems = cartItemDAOImpl.getAllCartItemsByCartId(ct.getIdCart());
+                    
+                    int i = cartItemDAOImpl.countCartItems(ct.getIdCart());
+                    
+                    for(CartItem ci : listItems){ 
+    		              p = productDAOImpl.getProductById(ci.getProductId()); 
+    		              
+    		              total = total + p.getPrice();
+                	
+                		}
+                    ct.setTotal(total);
+                    %>
                     <div class="shopping-item">
-                        <a href="cart.jsp">Cart - <span class="cart-amunt">$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+                    
+                        <a href="cart.jsp">Cart - <span class="cart-amunt">$<%= total %></span> <i class="fa fa-shopping-cart"></i> <span class="product-count"><%= i %></span></a>
                     </div>
+                    
+                <%   
+                }else {
+                CartDAOImpl cartDAOImpl = new CartDAOImpl();
+                Cart ct = cartDAOImpl.getCartBySession(user.getEmail());
+                CartItemDAOImpl cartItemDAOImpl = new CartItemDAOImpl();
+                ProductDAOImpl productDAOImpl = new ProductDAOImpl();
+                Product p = new Product();
+                double total=0;
+                
+                ArrayList<CartItem> listItems = new ArrayList<CartItem>();
+                listItems = cartItemDAOImpl.getAllCartItemsByCartId(ct.getIdCart());
+                
+                int i = cartItemDAOImpl.countCartItems(ct.getIdCart());
+                
+                for(CartItem ci : listItems){ 
+		              p = productDAOImpl.getProductById(ci.getProductId()); 
+		              
+		              total = total + p.getPrice();
+                
+                }
+                ct.setTotal(total);
+              //  cartDAOImpl.updateCart(c);
+                
+                
+                
+                %>
+                    <div class="shopping-item">
+                    
+                        <a href="cart.jsp">Cart - <span class="cart-amunt">$<%= total %></span> <i class="fa fa-shopping-cart"></i> <span class="product-count"><%= i %></span></a>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>

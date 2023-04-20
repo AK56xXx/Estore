@@ -164,5 +164,22 @@ public class CartItemDAOImpl implements CartItemDAO {
 		return -1;		
 	}
 
+	@Override
+	public int countCartItems(int id) {
+		try {
+			ps=con.prepareStatement("select count(*) as count from cart_item where cart_id=? and confirmed=?");
+			ps.setInt(1,id);
+			ps.setString(2,"no");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+			return rs.getInt("count");
+			}
+			} catch(Exception e) {
+			System.out.println("Connection error : countCartItem " + e);
+			}
+			return -1;
+			
+	}
+
 
 }

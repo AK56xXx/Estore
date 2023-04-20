@@ -56,14 +56,20 @@
 		input.addEventListener("input", function() {
 			var newValue = parseInt(input.value) +1;
 		    input.value = newValue;
+		    
+		    
 		});
+		
+		
+		
 
 		function increment() {
 		  // Get the input element
 		  var input = document.getElementById("quantity");
-		
+		  	
 		  // Increment the value by one
 		  input.stepUp();
+		  
 		}
 		
 		function decrement() {
@@ -73,6 +79,11 @@
 		  // Decrement the value by one
 		  input.stepDown();
 		}
+		
+		
+			
+		    
+	
 		
 </script>
     
@@ -137,7 +148,9 @@
                 <div class="col-md-8">
                     <div class="product-content-right">
                         <div class="woocommerce">
-                            <form method="post" action="#">
+                        
+                        
+                            <form method="post" action="checkout">
                                 <table cellspacing="0" class="shop_table cart">
                                     <thead>
                                         <tr>
@@ -150,7 +163,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                   
                                      <%
+                                    
     try {
          User user1 = (User) session.getAttribute("user");
     
@@ -185,6 +200,7 @@
     
     
     %>
+    								
                                     <% for(CartItem ci : listItems){ %>
                                     <% p = productCRUD.getProductById(ci.getProductId()); %>
                                         <tr class="cart_item">
@@ -193,15 +209,15 @@
                                             </td>
 
                                             <td class="product-thumbnail">
-                                                <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="<%=p.getImage() %>"></a>
+                                                <a href="#"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" name="img" src="<%=p.getImage() %>"></a>
                                             </td>
 
                                             <td class="product-name">
-                                                <a href="single-product.html"><%=p.getProductName() %></a> 
+                                                <a href="#"><%=p.getProductName() %></a> 
                                             </td>
 
                                             <td class="product-price">
-                                                <span class="amount"><%=p.getPrice()%></span> 
+                                                <span class="amount" name="pprice"><%=p.getPrice()%></span> 
                                             </td>
                                             
 
@@ -209,13 +225,16 @@
                                             <td class="product-quantity">
                                                 <div class="quantity buttons_added">
                                                     <input type="button" class="minus" value="-" onclick="decrement()">
-                                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="1" step="1" id="quantity">
+                                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="1" step="1" id="quantity" name="qty">
                                                     <input type="button" class="plus" value="+" onclick="increment()">
+                                                    
                                                 </div>
                                             </td>
+                                            
+                                          
 
                                             <td class="product-subtotal">
-                                                <span class="amount">£15.00</span> 
+                                                <span class="amount" id="amount" name="tt"><%=p.getPrice()%></span> 
                                             </td>
                                         </tr>
                                         
@@ -240,21 +259,22 @@
                                         
                                     <% for(CartItem ci : listItems){ %>
                                     <% p = productCRUD.getProductById(ci.getProductId()); %>
+                                    
                                         <tr class="cart_item">
                                             <td class="product-remove">
                                                 <a title="Remove this item" class="remove" href="deleteItem?idp=<%= ci.getIdCartItem() %>">×</a> 
                                             </td>
 
                                             <td class="product-thumbnail">
-                                                <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="<%=p.getImage() %>"></a>
+                                                <a href="#"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" name="img" src="<%=p.getImage() %>"></a>
                                             </td>
 
                                             <td class="product-name">
-                                                <a href="single-product.html"><%=p.getProductName() %></a> 
+                                                <a href="#" name="pname"><%=p.getProductName() %></a> 
                                             </td>
 
                                             <td class="product-price">
-                                                <span class="amount"><%=p.getPrice()%></span> 
+                                                <span class="amount" id="amount" name="mount"><%=p.getPrice()%></span> 
                                             </td>
                                             
 
@@ -262,13 +282,16 @@
                                             <td class="product-quantity">
                                                 <div class="quantity buttons_added">
                                                     <input type="button" class="minus" value="-" onclick="decrement()">
-                                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="1" step="1" id="quantity">
+                                                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="1" step="1" id="quantity" name="qty">
                                                     <input type="button" class="plus" value="+" onclick="increment()">
+                                                    <input type="hidden" name="idcart" value="<%= c.getIdCart() %>">
                                                 </div>
                                             </td>
 
                                             <td class="product-subtotal">
-                                                <span class="amount">£15.00</span> 
+                                     
+                                     
+                                                <span class="amount"><%=p.getPrice()%></span> 
                                             </td>
                                         </tr>
                                         
@@ -279,20 +302,21 @@
                                           
                                         
                                         <%} %>
+                                        
                                         <% }catch (Exception e){
                                         	System.out.println(e.getMessage());
 		                                   }
+                                     
 		                               %>
                                    
                                         <tr>
                                             <td class="actions" colspan="6">
-                                                <div class="coupon">
-                                                    <label for="coupon_code">Coupon:</label>
-                                                    <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code">
-                                                    <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
-                                                </div>
-                                                <input type="submit" value="Update Cart" name="update_cart" class="button">
-                                                <input type="submit" value="Checkout" name="proceed" class="checkout-button button alt wc-forward">
+                                            	
+                        						
+                                                <input type="submit" value="Checkout" class="checkout-button button alt wc-forward">
+                                                
+                                                
+                                                
                                             </td>
                                         </tr>
                                     </tbody>
@@ -300,7 +324,6 @@
                             </form>
 
                             <div class="cart-collaterals">
-
 
                             <div class="cross-sells">
                                 <h2>You may be interested in...</h2>
@@ -465,7 +488,6 @@
                                     <option value="IR">Iran</option>
                                     <option value="IQ">Iraq</option>
                                     <option value="IM">Isle of Man</option>
-                                    <option value="IL">Israel</option>
                                     <option value="IT">Italy</option>
                                     <option value="CI">Ivory Coast</option>
                                     <option value="JM">Jamaica</option>
@@ -525,7 +547,6 @@
                                     <option value="NO">Norway</option>
                                     <option value="OM">Oman</option>
                                     <option value="PK">Pakistan</option>
-                                    <option value="PS">Palestinian Territory</option>
                                     <option value="PA">Panama</option>
                                     <option value="PG">Papua New Guinea</option>
                                     <option value="PY">Paraguay</option>
@@ -573,7 +594,6 @@
                                     <option value="SE">Sweden</option>
                                     <option value="CH">Switzerland</option>
                                     <option value="SY">Syria</option>
-                                    <option value="TW">Taiwan</option>
                                     <option value="TJ">Tajikistan</option>
                                     <option value="TZ">Tanzania</option>
                                     <option value="TH">Thailand</option>

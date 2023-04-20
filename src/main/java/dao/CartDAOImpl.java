@@ -93,7 +93,7 @@ public class CartDAOImpl implements CartDAO {
 			else
 				return 0;
 		}catch(Exception e){
-			System.out.println("Connection error : deleteCartItem " +e );
+			System.out.println("Connection error : deleteCart " +e );
 		}
 		return -1;		
 	}
@@ -114,5 +114,7 @@ public class CartDAOImpl implements CartDAO {
 			
 		return -1;
 	}
+
+	
 
 }
