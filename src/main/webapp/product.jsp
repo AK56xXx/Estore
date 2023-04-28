@@ -3,6 +3,13 @@
 <%@ page import="models.Product" %>
 <%@ page import="dao.ProductDAOImpl" %>
 <%@ page import="java.util.ArrayList" %>
+
+<%@ page import="java.sql.*" %>
+<%@ page import="javax.sql.*" %>
+<%@ page import="java.io.*" %>
+<%@ page import="java.util.*" %>
+
+
 <!DOCTYPE html>
 <!--
 	ustora by freshdesignweb.com
@@ -167,7 +174,23 @@
                             <div class="col-sm-6">
                                 <div class="product-images">
                                     <div class="product-main-img">
-                                        <img src="<%= product.getImage()%>" alt="">
+                                  
+                                    <%
+                                    Blob blob = product.getImage();
+                                    if (blob != null) {
+                                    InputStream inputStream = blob.getBinaryStream();
+                                    byte[] imageData = inputStream.readAllBytes();
+                                    String base64Image = Base64.getEncoder().encodeToString(imageData);
+                                    
+                                    
+                                    %>
+                                    
+                                    
+                                  
+                                        <img src="data:image/jpg;base64,<%=base64Image%>" alt="image">
+                                    <%
+                                    }
+                                    %>
                                     </div>
                                     
                                     <div class="product-gallery">

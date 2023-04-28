@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Blob;
+
 public class Product {
 	
 	private int idProduct;
@@ -8,14 +10,14 @@ public class Product {
 	private String description;
 	private double price;
 	private double oldPrice;
-	private String image;
+	private Blob image;
 	
 	public Product() {
 		super();
 	}
 
 	public Product(int idProduct, int idCategory, String productName, String description, double price, double oldPrice,
-			String image) {
+			Blob image) {
 		super();
 		this.idProduct = idProduct;
 		this.idCategory = idCategory;
@@ -74,11 +76,11 @@ public class Product {
 		this.oldPrice = oldPrice;
 	}
 
-	public String getImage() {
+	public Blob getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(Blob image) {
 		this.image = image;
 	}
 

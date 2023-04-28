@@ -7,6 +7,11 @@
 <%@ page import="dao.CartDAOImpl" %>
 <%@ page import="models.Product" %>
 <%@ page import="dao.ProductDAOImpl" %>
+
+<%@ page import="java.sql.*" %>
+<%@ page import="javax.sql.*" %>
+<%@ page import="java.io.*" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <!--
 	ustora by freshdesignweb.com
@@ -209,7 +214,18 @@
                                             </td>
 
                                             <td class="product-thumbnail">
-                                                <a href="#"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" name="img" src="<%=p.getImage() %>"></a>
+                                            <%
+                                            
+                                            Blob blob = p.getImage();
+                                            if (blob != null) {
+                                            InputStream inputStream = blob.getBinaryStream();
+                                            byte[] imageData = inputStream.readAllBytes();
+                                            String base64Image = Base64.getEncoder().encodeToString(imageData);
+                                            
+                                            
+                                            %>
+                                                <a href="#"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" name="img" src="data:image/jpg;base64,<%=base64Image%>"></a>
+                                            <% } %>
                                             </td>
 
                                             <td class="product-name">

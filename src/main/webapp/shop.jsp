@@ -4,6 +4,11 @@
 <%@ page import="models.User" %>
 <%@ page import="dao.ProductDAOImpl" %>
 <%@ page import="java.util.ArrayList" %>
+
+<%@ page import="java.sql.*" %>
+<%@ page import="javax.sql.*" %>
+<%@ page import="java.io.*" %>
+<%@ page import="java.util.*" %>
     
 <!DOCTYPE html>
 <!--
@@ -45,6 +50,7 @@
   <body>
    <%@ include file="header.jsp" %>
     <%
+    try{
     int idu;
     try {
     	if(!session.getAttribute("user").equals(null))
@@ -96,7 +102,17 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="single-shop-product">
                         <div class="product-upper">
-                            <img src="<%= products.get(i).getImage() %>" alt="">
+                        <%
+                        Blob blob = products.get(i).getImage();
+                        if (blob != null) {
+                        InputStream inputStream = blob.getBinaryStream();
+                        byte[] imageData = inputStream.readAllBytes();
+                        String base64Image = Base64.getEncoder().encodeToString(imageData);
+                        
+                        
+                        %>
+                            <img src="data:image/jpg;base64,<%=base64Image%>" alt="image">
+                            <% } %>
                         </div>
                         <h2><a href="product.jsp?idp=<%=products.get(i).getIdProduct() %>&idc=<%=idc%>"><%=products.get(i).getProductName() %> </a></h2>
                         <div class="product-carousel-price">
@@ -111,6 +127,11 @@
                 
                 <%
 				}
+    }catch(Exception e)
+    {
+    	System.err.println(e);
+    }
+    
                 %>
                 
                

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import com.mysql.cj.jdbc.Blob;
+
 import models.Product;
 
 public class ProductDAOImpl implements ProductDAO {
@@ -82,7 +84,7 @@ public class ProductDAOImpl implements ProductDAO {
 				product.setDescription(rs.getString(4));
 				product.setPrice(rs.getDouble(5));
 				product.setOldPrice(rs.getDouble(6));
-				product.setImage(rs.getString(7));
+				product.setImage(rs.getBlob(7));
 						
 			}
 			return product;
@@ -109,7 +111,7 @@ public class ProductDAOImpl implements ProductDAO {
 				product.setDescription(rs.getString(4));
 				product.setPrice(rs.getDouble(5));
 				product.setOldPrice(rs.getDouble(6));
-				product.setImage(rs.getString(7));
+				product.setImage(rs.getBlob(7));
 			
 				list.add(product);
 			}
@@ -154,7 +156,7 @@ public class ProductDAOImpl implements ProductDAO {
 				product.setDescription(rs.getString(4));
 				product.setPrice(rs.getDouble(5));
 				product.setOldPrice(rs.getDouble(6));
-				product.setImage(rs.getString(7));
+				product.setImage(rs.getBlob(7));
 			
 				list.add(product);
 			}
