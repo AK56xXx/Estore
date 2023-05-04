@@ -1,10 +1,10 @@
 package models;
 
 public class Category {
-	
+
 	private int idCategory;
 	private String nameCategory;
-	
+
 	public Category() {
 		super();
 	}
@@ -35,9 +35,5 @@ public class Category {
 	public String toString() {
 		return "Category [idCategory=" + idCategory + ", nameCategory=" + nameCategory + "]";
 	}
-	
-	
-	
-	
 
 }

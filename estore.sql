@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 26, 2023 at 11:15 PM
+-- Generation Time: May 04, 2023 at 12:36 AM
 -- Server version: 8.0.15
 -- PHP Version: 7.3.1
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `price` double DEFAULT NULL,
   `old_price` double DEFAULT NULL,
-  `image` varchar(150) DEFAULT NULL,
+  `image` longblob,
   PRIMARY KEY (`id_product`),
   KEY `id_category_idx` (`id_category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

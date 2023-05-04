@@ -39,7 +39,7 @@ public class User {
 		this.postecode = postecode;
 		this.phone = phone;
 		this.role = role;
-		this.idCart= idCart;
+		this.idCart = idCart;
 		this.registerDate = registerDate;
 	}
 
@@ -146,8 +146,7 @@ public class User {
 	public void setRegisterDate(String registerDate) {
 		this.registerDate = registerDate;
 	}
-	
-	
+
 	public int getIdCart() {
 		return idCart;
 	}
@@ -163,15 +162,13 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
-	
 
 	@Override
 	public String toString() {
 		return "User [idUser=" + idUser + ", email=" + email + ", fname=" + fname + ", lname=" + lname + ", password="
 				+ password + ", photo=" + photo + ", country=" + country + ", address=" + address + ", city=" + city
-				+ ", state=" + state + ", postecode=" + postecode + ", phone=" + phone + ", role=" + role + ", idCart=" + idCart
-				+ ", registerDate=" + registerDate + "]";
+				+ ", state=" + state + ", postecode=" + postecode + ", phone=" + phone + ", role=" + role + ", idCart="
+				+ idCart + ", registerDate=" + registerDate + "]";
 	}
 
 }

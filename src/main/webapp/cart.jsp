@@ -275,14 +275,26 @@
                                         
                                     <% for(CartItem ci : listItems){ %>
                                     <% p = productCRUD.getProductById(ci.getProductId()); %>
+                                    <%
                                     
+                                    
+                                    Blob blob = p.getImage();
+                                    if (blob != null) {
+                                    InputStream inputStream = blob.getBinaryStream();
+                                    byte[] imageData = inputStream.readAllBytes();
+                                    String base64Image = Base64.getEncoder().encodeToString(imageData);
+                                    
+                                    
+                                    
+                                    
+                                    %>
                                         <tr class="cart_item">
                                             <td class="product-remove">
                                                 <a title="Remove this item" class="remove" href="deleteItem?idp=<%= ci.getIdCartItem() %>">×</a> 
                                             </td>
 
                                             <td class="product-thumbnail">
-                                                <a href="#"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" name="img" src="<%=p.getImage() %>"></a>
+                                                <a href="#"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" name="img" src="data:image/jpg;base64,<%=base64Image%>"></a>
                                             </td>
 
                                             <td class="product-name">
@@ -313,17 +325,18 @@
                                         
                                         
                                         <% } %>
+                                                 
+                                        <% } %>
                                         
+                                        <% } %> 
                                         
-                                          
-                                        
-                                        <%} %>
-                                        
-                                        <% }catch (Exception e){
+                                        <% 
+		
+											}catch (Exception e){
                                         	System.out.println(e.getMessage());
-		                                   }
+		                                    }
                                      
-		                               %>
+		                                %>
                                    
                                         <tr>
                                             <td class="actions" colspan="6">

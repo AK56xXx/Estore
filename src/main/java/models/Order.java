@@ -1,16 +1,15 @@
 package models;
 
 public class Order {
-	
+
 	private int idOrder;
 	private int idCart;
 	private String orderDate;
-	
-	
+
 	public Order() {
 		super();
 	}
-	
+
 	public Order(int idOrder, int idCart, String orderDate) {
 		super();
 		this.idOrder = idOrder;
@@ -22,21 +21,18 @@ public class Order {
 		return idOrder;
 	}
 
-
 	public void setIdOrder(int idOrder) {
 		this.idOrder = idOrder;
 	}
-
 
 	public int getIdCart() {
 		return idCart;
 	}
 
-
 	public void setIdCart(int idCart) {
 		this.idCart = idCart;
 	}
-	
+
 	public String getOrderDate() {
 		return orderDate;
 	}
@@ -47,11 +43,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [idOrder=" + idOrder + ", idCart=" + idCart + ", orderDate=" + orderDate
-				+ "]";
+		return "Order [idOrder=" + idOrder + ", idCart=" + idCart + ", orderDate=" + orderDate + "]";
 	}
-
-	
-	
 
 }

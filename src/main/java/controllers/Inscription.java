@@ -20,21 +20,19 @@ import models.User;
 /**
  * Servlet implementation class Inscription
  */
-@WebServlet({ "/Inscription", "/inscription" , "/signup" })
+@WebServlet({ "/Inscription", "/inscription", "/signup" })
 public class Inscription extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CartDAOImpl cartDAOImpl;
 	private UserDAOImpl userDAOImpl;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Inscription() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Inscription() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -43,70 +41,65 @@ public class Inscription extends HttpServlet {
 		cartDAOImpl = new CartDAOImpl();
 	}
 
-
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd ;
-		rd = request.getRequestDispatcher("signup.jsp");	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher rd;
+		rd = request.getRequestDispatcher("signup.jsp");
 		rd.forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String fname = (String) request.getParameter("fname");
-		String lname = (String) request .getParameter("lname");
+		String lname = (String) request.getParameter("lname");
 		String email = (String) request.getParameter("email");
 		String password = (String) request.getParameter("password");
-		
-		
 
-		RequestDispatcher rd ;
-	
-		
+		RequestDispatcher rd;
 
-		
-		int existe = userDAOImpl.exist(email) ;
-		if (existe==1) {
+		int existe = userDAOImpl.exist(email);
+		if (existe == 1) {
 			request.setAttribute("ERROR", Strings.ERROR_EMAIL_EXIST);
 			rd = request.getRequestDispatcher("signup.jsp");
-		}else {
-			
+		} else {
+
 			Cart cart = new Cart();
 			cart.setSession(email);
 			cartDAOImpl.addCart(cart);
-		
-			
+
 			Cart cartAdded = new Cart();
 			cartAdded = cartDAOImpl.getCartBySession(email);
-			
+
 			User user = new User();
 			user.setFname(fname);
 			user.setLname(lname);
 			user.setEmail(email);
 			user.setPassword(password);
 			user.setIdCart(cartAdded.getIdCart());
-			
-					
+
 			int creation = userDAOImpl.addUser(user);
-			if (creation==1) {
+			if (creation == 1) {
 				User user1 = userDAOImpl.getUserByEmail(email);
 				HttpSession session = request.getSession();
 				session.setAttribute("user", user1);
 				rd = request.getRequestDispatcher("index.jsp");
-			}else {
+			} else {
 				request.setAttribute("ERROR", Strings.ERROR_DB_PROBLEM);
 				rd = request.getRequestDispatcher("signup.jsp");
 			}
 		}
-		
+
 		rd.forward(request, response);
-		
+
 	}
 
 }

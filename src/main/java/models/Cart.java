@@ -1,11 +1,11 @@
 package models;
 
 public class Cart {
-	
+
 	private int idCart;
 	private String session;
 	private double total;
-	
+
 	public Cart() {
 		super();
 	}
@@ -45,9 +45,5 @@ public class Cart {
 	public String toString() {
 		return "Cart [idCart=" + idCart + ", session=" + session + ", total=" + total + "]";
 	}
-
-	
-	
-	
 
 }

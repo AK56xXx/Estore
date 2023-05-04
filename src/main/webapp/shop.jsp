@@ -103,6 +103,7 @@
                     <div class="single-shop-product">
                         <div class="product-upper">
                         <%
+                        // convert Blob objct to an image
                         Blob blob = products.get(i).getImage();
                         if (blob != null) {
                         InputStream inputStream = blob.getBinaryStream();

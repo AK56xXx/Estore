@@ -1,14 +1,14 @@
 package models;
 
 public class CartItem {
-	
+
 	private int idCartItem;
 	private int qty;
 	private double price;
 	private String confirmed;
 	private int cartId;
 	private int productId;
-	
+
 	public CartItem() {
 		super();
 	}
@@ -76,11 +76,5 @@ public class CartItem {
 		return "CartItem [idCartItem=" + idCartItem + ", qty=" + qty + ", price=" + price + ", confirmed=" + confirmed
 				+ ", cartId=" + cartId + ", productId=" + productId + "]";
 	}
-	
-	
-	
-	
-	
-	
 
 }

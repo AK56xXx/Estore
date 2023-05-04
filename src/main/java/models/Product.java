@@ -3,7 +3,7 @@ package models;
 import java.sql.Blob;
 
 public class Product {
-	
+
 	private int idProduct;
 	private int idCategory;
 	private String productName;
@@ -11,7 +11,7 @@ public class Product {
 	private double price;
 	private double oldPrice;
 	private Blob image;
-	
+
 	public Product() {
 		super();
 	}
@@ -90,10 +90,5 @@ public class Product {
 				+ ", description=" + description + ", price=" + price + ", oldPrice=" + oldPrice + ", image=" + image
 				+ "]";
 	}
-	
-	
-	
-	
-	
 
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import models.Category;
 
 public class CategoryDAOImpl implements CategoryDAO {
-	
+
 	private Connection con;
 	private PreparedStatement ps;
 	private ResultSet rs;
@@ -18,56 +18,55 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
-	public int addCategory(Category category) {	
+	public int addCategory(Category category) {
 		try {
-			ps=con.prepareStatement("INSERT INTO category (name) Values (?)");
-			ps.setString(1,category.getNameCategory());
-			int i=ps.executeUpdate();
-			if (i>0)
+			ps = con.prepareStatement("INSERT INTO category (name) Values (?)");
+			ps.setString(1, category.getNameCategory());
+			int i = ps.executeUpdate();
+			if (i > 0)
 				return 1;
 			else
 				return 0;
-		}catch(Exception e){
-			System.out.println("Connection error : addCategory " +e );
+		} catch (Exception e) {
+			System.out.println("Connection error : addCategory " + e);
 		}
-		return -1;		
+		return -1;
 	}
 
 	@Override
 	public int updateCategory(Category category) {
 		try {
-			ps=con.prepareStatement("update category set name=?"
-					+ "where id_category=?");
-			
-			ps.setString(1,category.getNameCategory());
-			ps.setInt(2,category.getIdCategory());
+			ps = con.prepareStatement("update category set name=?" + "where id_category=?");
 
-			int i=ps.executeUpdate();
-			if (i>0)
+			ps.setString(1, category.getNameCategory());
+			ps.setInt(2, category.getIdCategory());
+
+			int i = ps.executeUpdate();
+			if (i > 0)
 				return 1;
 			else
 				return 0;
-		}catch(Exception e){
-			System.out.println("Connection error : updateCategory " +e );
+		} catch (Exception e) {
+			System.out.println("Connection error : updateCategory " + e);
 		}
-		return -1;		
+		return -1;
 	}
 
 	@Override
-	public Category getCategoryById(int id) {	
+	public Category getCategoryById(int id) {
 		try {
 			Category category = new Category();
-			ps=con.prepareStatement("select * from category where id_category=?");
-			
-			ps.setInt(1,id);
+			ps = con.prepareStatement("select * from category where id_category=?");
+
+			ps.setInt(1, id);
 
 			rs = ps.executeQuery();
-	
+
 			if (rs.next()) {
-				
+
 				category.setIdCategory(rs.getInt(1));
 				category.setNameCategory(rs.getString(2));
-		
+
 			}
 			return category;
 
@@ -76,13 +75,13 @@ public class CategoryDAOImpl implements CategoryDAO {
 		}
 
 		return null;
-		
+
 	}
 
 	@Override
 	public ArrayList<Category> getAllCategories() {
 		try {
-			
+
 			ArrayList<Category> list = new ArrayList<Category>();
 			ps = con.prepareStatement("SELECT * from category");
 			rs = ps.executeQuery();
@@ -90,10 +89,10 @@ public class CategoryDAOImpl implements CategoryDAO {
 				Category category = new Category();
 				category.setIdCategory(rs.getInt(1));
 				category.setNameCategory(rs.getString(2));
-			
+
 				list.add(category);
 			}
-			
+
 			return list;
 
 		} catch (Exception e) {
@@ -106,17 +105,17 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	public int deleteCategory(int id) {
 		try {
-			ps=con.prepareStatement("DELETE from category where id_category=?");
-			ps.setInt(1,id);
-			int i=ps.executeUpdate();
-			if (i>0)
+			ps = con.prepareStatement("DELETE from category where id_category=?");
+			ps.setInt(1, id);
+			int i = ps.executeUpdate();
+			if (i > 0)
 				return 1;
 			else
 				return 0;
-		}catch(Exception e){
-			System.out.println("Connection error : deleteCategory " +e );
+		} catch (Exception e) {
+			System.out.println("Connection error : deleteCategory " + e);
 		}
-		return -1;		
+		return -1;
 	}
 
 }
